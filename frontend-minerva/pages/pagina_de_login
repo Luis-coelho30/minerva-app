@@ -1,0 +1,10 @@
+import streamlit as st
+def pagina_de_login():
+    st.title("🎓Minerva")
+    st.write("Entrar")
+    usuario = st.text_input("Usuario")
+    senha = st.text_input("Senha", type="password")
+    st.write("<a href='#' id='my-link'>Esqueci a senha</a>", unsafe_allow_html=True)
+    st.button("Entrar", key="Entrar")
+    #if st.button("Entrar"):
+        # vai pra pagina inicial
