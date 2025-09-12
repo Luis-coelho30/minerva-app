@@ -1,6 +1,6 @@
 import streamlit as st
 import re
-import pandas as pd
+
 
 # Bloco de CSS pra tirar a barra lateral 
 st.markdown(
@@ -10,7 +10,12 @@ st.markdown(
             background-color: #112236
         }
     
-        
+        [data-testid="stSidebar"] {
+            display: none;
+        }
+        [data-testid="collapsedControl"] {
+            display: none;
+        }
     </style>
     """,
     unsafe_allow_html=True,
