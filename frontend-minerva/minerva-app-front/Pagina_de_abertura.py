@@ -2,7 +2,7 @@
 import streamlit as st
 from utils import setup_css
 
-setup_css()
+setup_css() # define a cor do fundo e tira a sidebar
 
 st.set_page_config(page_title="Minerva", page_icon="./images/Minerva_logo.jpeg")
 
