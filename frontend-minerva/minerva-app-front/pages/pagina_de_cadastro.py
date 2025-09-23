@@ -36,6 +36,6 @@ with mid:
         else:
             # Todas as validações passaram
             st.success("Cadastro realizado com sucesso! Redirecionando...")
-            st.switch_page("./Pagina_de_abertura.py")
+            st.switch_page("./pages/pagina_de_abertura.py")
     if st.button("Voltar"):
-        st.switch_page("./Pagina_de_abertura.py")
+        st.switch_page("./pages/pagina_de_abertura.py")

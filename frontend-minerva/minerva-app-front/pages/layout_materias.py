@@ -3,12 +3,12 @@ from utils import setup_logged_css
 from menu import menu_with_redirect
 
 
-st.set_page_config(page_title="Home", page_icon="./images/Minerva_logo.jpeg")   # define qual nome a aba vai ter no navegador
+setup_logged_css() # define a cor do fundo e tira a sidebar
 
+nome_da_materia = "Teste"
 largura_logo_home = 150
 
-setup_logged_css()   # define a cor de fundo e que a pagina comeca mais pra cima pra logo ficar mais alta
-
+st.set_page_config(page_title=nome_da_materia, page_icon="./images/Minerva_logo.jpeg")   # define qual nome a aba vai ter no navegador
 
 menu_with_redirect()
 
@@ -19,3 +19,7 @@ with mid:
         st.image("./images/Minerva_logo.jpeg", width= largura_logo_home)            
     with col_nome:
         st.title("Minerva")
+
+st.title(nome_da_materia)
+st.write("Conteudo da materia:")
+st.write("Tarefas:")

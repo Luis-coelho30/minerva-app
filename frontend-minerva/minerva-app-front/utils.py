@@ -1,18 +1,12 @@
 import streamlit as st
 import re
 
-def setup_css(): # define a cor do fundo e tira a sidebar, somente usado antes do usuario ter logado
+def setup_css(): # define a cor do fundo, somente usado antes do usuario ter logado
     st.markdown(
         """
         <style>
             .stApp {
                 background-color: #112236;
-            }
-            [data-testid="stSidebar"] {
-                display: none;
-            }
-            [data-testid="collapsedControl"] {
-                display: none;
             }
         </style>
         """,
