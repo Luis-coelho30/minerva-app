@@ -9,7 +9,6 @@ largura_logo_home = 150
 
 setup_logged_css()   # define a cor de fundo e que a pagina comeca mais pra cima pra logo ficar mais alta
 
-
 menu_with_redirect()
 
 col1, mid, col2 = st.columns([1, 10, 1])    # coloca a logo e o nome no topo da pagina
@@ -19,3 +18,7 @@ with mid:
         st.image("./images/Minerva_logo.jpeg", width= largura_logo_home)            
     with col_nome:
         st.title("Minerva")
+
+st.subheader("Calendario") 
+st.subheader("Tarefas de Hoje:")
+st.button("Tarefa 1")
