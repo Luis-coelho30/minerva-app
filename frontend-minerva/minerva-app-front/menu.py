@@ -3,9 +3,9 @@ import streamlit as st
 
 def authenticated_menu():
     # Show a navigation menu for authenticated users
-    st.sidebar.page_link("pages/1_pagina_home.py", label="Home")
-    st.sidebar.page_link("pages/2_pagina_de_materias.py", label="Materias")
-    st.sidebar.page_link("pages/3_pagina_de_tarefas.py", label="Tarefas")
+    st.sidebar.page_link("pages/1_pagina_home.py", label="Home", icon=":material/home:")
+    st.sidebar.page_link("pages/2_pagina_de_materias.py", label="Materias", icon=":material/book_2:")
+    st.sidebar.page_link("pages/3_pagina_de_tarefas.py", label="Tarefas", icon=":material/note_stack:")
     
 
 

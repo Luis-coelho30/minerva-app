@@ -13,7 +13,8 @@ def setup_css(): # define a cor do fundo, somente usado antes do usuario ter log
         unsafe_allow_html=True,
     )
 
-def setup_logged_css(): # define a cor do fundo e define o topo da pagina mais pra cima, somente usado apos o login
+def setup_logged(): # define a cor do fundo e define o topo da pagina mais pra cima, somente usado apos o login
+    largura_logo_home = 150
     st.markdown(
         """
         <style>
@@ -28,6 +29,16 @@ def setup_logged_css(): # define a cor do fundo e define o topo da pagina mais p
         """,
         unsafe_allow_html=True,
     )
+    
+    _, mid, _ = st.columns([2, 3, 2])
+    with mid:
+        col_logo, col_nome = st.columns([1, 2], vertical_alignment="center")
+
+        with col_logo:
+            st.image("./images/Minerva_logo.jpeg", width=largura_logo_home)
+            
+        with col_nome:
+            st.markdown("<h1 style='text-align: left; margin-top: 0;'>Minerva</h1>", unsafe_allow_html=True)
 
 
 def verificar_email(email): # ve se o email fornecido esta em formato de email
