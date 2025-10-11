@@ -1,2 +1,4 @@
 [client]
-ShowSidebarNavigation = False
+showSidebarNavigation = false
+[theme]
+base="dark"
