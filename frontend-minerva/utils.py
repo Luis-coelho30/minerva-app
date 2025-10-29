@@ -1,7 +1,7 @@
 import streamlit as st
 import re
 
-def setup_css(): # define a cor do fundo, somente usado antes do usuario ter logado
+def setup_css():
     st.markdown(
         """
         <style>
@@ -20,7 +20,7 @@ def setup_logged(): # define a cor do fundo e define o topo da pagina mais pra c
         <style>
             /* Reduz o padding no topo do container principal */
             .block-container {
-                padding-top: 2rem; /* Ajuste este valor para mais ou menos espaço */
+                padding-top: 5rem; /* Ajuste este valor para mais ou menos espaço */
             }
             .stApp {
                 background-color: #112236
@@ -32,13 +32,10 @@ def setup_logged(): # define a cor do fundo e define o topo da pagina mais pra c
     
     _, mid, _ = st.columns([2, 3, 2])
     with mid:
-        col_logo, col_nome = st.columns([1, 2], vertical_alignment="center")
-
-        with col_logo:
-            st.image("./images/Minerva_logo.jpeg", width=largura_logo_home)
-            
-        with col_nome:
-            st.markdown("<h1 style='text-align: left; margin-top: 0;'>Minerva</h1>", unsafe_allow_html=True)
+        # Centralizar apenas a logo
+        _, logo_col, _ = st.columns([1, 1, 1])
+        with logo_col:
+            st.image("./images/Minerva_logo.jpeg", width=400)
 
 
 def verificar_email(email): # ve se o email fornecido esta em formato de email

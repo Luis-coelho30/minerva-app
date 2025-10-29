@@ -8,7 +8,6 @@ setup_logged()  # define a cor de fundo e que a pagina comeca mais pra cima pra 
 
 menu_with_redirect()
 
-
 with st.expander(icon=":material/add:", label="Adicionar Nova Tarefa", expanded=False):
     with st.form("nova_tarefa_form", clear_on_submit=True):
         titulo = st.text_input("Título da Tarefa")
