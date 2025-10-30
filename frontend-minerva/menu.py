@@ -6,7 +6,7 @@ def authenticated_menu():
     st.sidebar.page_link("pages/1_pagina_home.py", label="Home", icon=":material/home:")
     st.sidebar.page_link("pages/2_pagina_de_materias.py", label="Materias", icon=":material/book_2:")
     st.sidebar.page_link("pages/3_pagina_de_tarefas.py", label="Tarefas", icon=":material/note_stack:")
-    st.sidebar.page_link("pages/4_pagina_de_documentos.py", label="Tarefas", icon=":material/bookmarks:")
+    st.sidebar.page_link("pages/4_pagina_de_documentos.py", label="Arquivos", icon=":material/bookmarks:")
 
 
 def unauthenticated_menu():
