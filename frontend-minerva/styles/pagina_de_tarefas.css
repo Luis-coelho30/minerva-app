@@ -1,0 +1,77 @@
+/* Estilizar campos de texto */
+.stTextInput>div>div>input,
+.stTextArea>div>div>textarea {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+}
+
+/* Forçar fundo branco em TODOS os elementos de selectbox */
+.stSelectbox>div>div,
+.stSelectbox>div>div>div,
+.stSelectbox>div>div>div>div,
+.stSelectbox div[data-baseweb="select"],
+.stSelectbox div[data-baseweb="select"]>div,
+.stSelectbox div[role="combobox"],
+.stSelectbox [class*="css"] {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+}
+
+/* Estilizar date inputs - simples e funcional */
+.stDateInput input {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+}
+
+/* Estilizar container do date input */
+.stDateInput>div>div {
+    background-color: white !important;
+    border-radius: 8px !important;
+}
+
+/* Estilizar labels */
+.stTextInput>label,
+.stTextArea>label,
+.stSelectbox>label,
+.stDateInput>label,
+.stCheckbox>label {
+    color: white !important;
+    font-weight: bold !important;
+}
+
+/* Estilizar botão do formulário */
+.stFormSubmitButton>button {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+}
+
+/* Hover */
+.stFormSubmitButton>button:hover {
+    background-color: #f0f0f0 !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+}
+
+/* Ativo/Clicado - manter fundo branco */
+.stFormSubmitButton>button:active,
+.stFormSubmitButton>button:focus {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Estilizar checkbox */
+.stCheckbox>div {
+    color: white !important;
+}
