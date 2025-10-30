@@ -82,6 +82,20 @@ def editar_tarefa_modal():
         nova_prioridade = st.selectbox("Prioridade", ["Baixa", "Média", "Alta"], 
                                       index=["Baixa", "Média", "Alta"].index(tarefa["prioridade"]))
         
+        # Converter strings de data para objetos date se existirem
+        data_inicio_value = None
+        if tarefa["data_inicio"]:
+            from datetime import datetime
+            data_inicio_value = datetime.strptime(tarefa["data_inicio"], "%Y-%m-%d").date()
+        
+        data_final_value = None
+        if tarefa["data_final"]:
+            from datetime import datetime
+            data_final_value = datetime.strptime(tarefa["data_final"], "%Y-%m-%d").date()
+        
+        nova_data_inicio = st.date_input("Data de Início (Opcional)", value=data_inicio_value)
+        nova_data_final = st.date_input("Data Final (Opcional)", value=data_final_value)
+        
         col1, col2 = st.columns(2)
         with col1:
             if st.form_submit_button("Salvar"):
@@ -93,7 +107,9 @@ def editar_tarefa_modal():
                             "descricao": nova_descricao,
                             "status": novo_status,
                             "disciplina": nova_disciplina,
-                            "prioridade": nova_prioridade
+                            "prioridade": nova_prioridade,
+                            "data_inicio": str(nova_data_inicio) if nova_data_inicio else None,
+                            "data_final": str(nova_data_final) if nova_data_final else None
                         })
                         break
                 del st.session_state.editando_tarefa
