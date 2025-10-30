@@ -1,73 +1,13 @@
 import streamlit as st
 from utils import setup_logged
 from menu import menu_with_redirect
+from components import tarefa_component
 
-def tarefa_componente(titulo, descricao=None, status="Pendente", disciplina="", prioridade="Média", 
-                     arquivada=False, data_inicio=None, data_final=None, concluido_em=None):
-    
-    with st.container(border=True):
-        col1, col2, col3, col4 = st.columns([4, 1, 1, 1])
-        
-        with col1:
-            # Título com ícone de status
-            st.subheader(f" {titulo}")
-            
-            # Linha de informações principais
-            info_linha = []
-            if disciplina:
-                info_linha.append(f"{disciplina}")
-            info_linha.append(f"{prioridade}")
-            info_linha.append(f"{status}")
-            
-            st.caption(" | ".join(info_linha))
-            
-            # Descrição
-            if descricao:
-                st.write(f"{descricao}")
-            
-            # Datas
-            datas_info = []
-            if data_inicio:
-                datas_info.append(f"Início: {data_inicio}")
-            if data_final:
-                datas_info.append(f"Prazo: {data_final}")
-            if concluido_em:
-                datas_info.append(f"Concluído: {concluido_em}")
-            
-            if datas_info:
-                st.caption(" | ".join(datas_info))
-        
-        with col2:
-            if st.button("Editar", key=f"edit_{titulo}"):
-                st.session_state.editando_tarefa = {
-                    "titulo": titulo,
-                    "descricao": descricao,
-                    "status": status,
-                    "disciplina": disciplina,
-                    "prioridade": prioridade,
-                    "data_inicio": data_inicio,
-                    "data_final": data_final
-                }
-        
-        with col3:
-            if status != "Concluída":
-                if st.button("Concluir", key=f"complete_{titulo}"):
-                    # Atualizar status da tarefa para concluída
-                    for i, t in enumerate(st.session_state.tarefas):
-                        if t["titulo"] == titulo:
-                            st.session_state.tarefas[i]["status"] = "Concluída"
-                            break
-                    st.success("Tarefa concluída!")
-                    st.rerun()
-            else:
-                st.write("Concluída")
-        
-        with col4:
-            if st.button("Excluir", key=f"delete_{titulo}"):
-                # Remover tarefa da lista
-                st.session_state.tarefas = [t for t in st.session_state.tarefas if t["titulo"] != titulo]
-                st.success(f"Tarefa '{titulo}' excluída!")
-                st.rerun()
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+load_css("styles/pagina_de_tarefas.css")
 
 @st.dialog("Editar Tarefa")
 def editar_tarefa_modal():
@@ -127,89 +67,6 @@ setup_logged()  # define a cor de fundo e que a pagina comeca mais pra cima pra 
 
 menu_with_redirect()
 
-# CSS para estilizar formulário
-st.markdown("""
-    <style>
-    /* Estilizar campos de texto */
-    .stTextInput > div > div > input,
-    .stTextArea > div > div > textarea {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-        border-radius: 8px !important;
-    }
-    
-    /* Forçar fundo branco em TODOS os elementos de selectbox */
-    .stSelectbox > div > div,
-    .stSelectbox > div > div > div,
-    .stSelectbox > div > div > div > div,
-    .stSelectbox div[data-baseweb="select"],
-    .stSelectbox div[data-baseweb="select"] > div,
-    .stSelectbox div[role="combobox"],
-    .stSelectbox [class*="css"] {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-        border-radius: 8px !important;
-    }
-    
-        /* Estilizar date inputs - simples e funcional */
-    .stDateInput input {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-        border-radius: 8px !important;
-    }
-    
-    /* Estilizar container do date input */
-    .stDateInput > div > div {
-        background-color: white !important;
-        border-radius: 8px !important;
-    }
-    
-    /* Estilizar labels */
-    .stTextInput > label,
-    .stTextArea > label,
-    .stSelectbox > label,
-    .stDateInput > label,
-    .stCheckbox > label {
-        color: white !important;
-        font-weight: bold !important;
-    }
-    
-    /* Estilizar botão do formulário */
-    .stFormSubmitButton > button {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-        border-radius: 8px !important;
-        font-weight: bold !important;
-    }
-
-    /* Hover */
-    .stFormSubmitButton > button:hover {
-        background-color: #f0f0f0 !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-    }
-
-    /* Ativo/Clicado - manter fundo branco */
-    .stFormSubmitButton > button:active,
-    .stFormSubmitButton > button:focus {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-        outline: none !important;
-        box-shadow: none !important;
-    }
-    
-    /* Estilizar checkbox */
-    .stCheckbox > div {
-        color: white !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 if "tarefas" not in st.session_state:
     st.session_state.tarefas = []
 
@@ -252,7 +109,7 @@ if not st.session_state.tarefas:
     st.success("Ótimo trabalho! Nenhuma tarefa pendente. ✨")
 else:
     for tarefa in st.session_state.tarefas:
-        tarefa_componente(**tarefa)  # Usar ** para passar todos os parâmetros
+        tarefa_component(**tarefa)  # Usar ** para passar todos os parâmetros
 
 # Verificar se deve abrir modal de edição
 if "editando_tarefa" in st.session_state:
