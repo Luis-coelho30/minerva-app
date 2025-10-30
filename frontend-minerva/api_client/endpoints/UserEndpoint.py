@@ -10,8 +10,8 @@ class UserEndpoint:
         return self.client.post("/usuarios/register", data=data)
 
     def update_user(self, data: dict):
-        """PUT /usuarios/update/me - atualiza dados de um usuário"""
-        return self.client.put(f"/usuarios/update/me", data=data)
+        """PUT /usuarios/me - atualiza dados de um usuário"""
+        return self.client.put(f"/usuarios/me", data=data)
 
     def delete_user(self):
         """DELETE /usuarios/me - remove um usuário"""

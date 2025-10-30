@@ -3,6 +3,7 @@ import re
 from utils import verificar_email, verificar_senha_forte, setup_css
 
 setup_css() # define a cor do fundo e tira a sidebar
+user_api = st.session_state.user_api
 
 # CSS para estilizar os botões
 st.markdown("""
@@ -86,7 +87,17 @@ with mid:
             st.error(resultado_senha)
         else:
             # Todas as validações passaram
-            st.success("Cadastro realizado com sucesso! Redirecionando...")
-            st.switch_page("./pages/pagina_de_abertura.py")
+            try:
+                user_resp = {
+                            "username": usuario,
+                            "email": email,
+                            "senha": senha
+                }
+                resposta = user_api.create_user(user_resp)
+                st.success("Cadastro realizado com sucesso! Redirecionando...")
+                st.switch_page("./pages/pagina_de_abertura.py")
+            except Exception as e:
+                st.error(f"Erro ao cadastrar usuário: Email: {email} já foi cadastrado!")
+
     if st.button("Voltar"):
         st.switch_page("./pages/pagina_de_abertura.py")

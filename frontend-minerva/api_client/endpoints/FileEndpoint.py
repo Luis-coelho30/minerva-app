@@ -10,8 +10,8 @@ class FileEndpoint:
         return self.client.get(f"arquivos/me")
     
     def list_files_by_discipline(self, discId: int):
-        """GET /arquivos/me/{discId} - lista todas os arquivos de uma disciplina pelo ID"""
-        return self.client.get(f"arquivos/me/{discId}")
+        """GET /arquivos/me?disciplinaId={discId} - lista todas os arquivos de uma disciplina pelo ID"""
+        return self.client.get(f"arquivos/me?disciplinaId={discId}")
     
     def create_file(self, disciplinaId: int, nomeOriginal: str, url: str, tipo: str):
         """POST /arquivos/me/create - cria um novo arquivo para o usuário logado"""

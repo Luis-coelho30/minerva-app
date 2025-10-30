@@ -4,6 +4,7 @@ from utils import setup_css
 st.set_page_config(page_title="Login", page_icon="./images/Minerva_logo.jpeg") # define qual nome a aba vai ter no navegador
 
 setup_css() # define a cor do fundo e tira a sidebar
+user_api = st.session_state.user_api
 
 # CSS para estilizar os botões
 st.markdown("""
@@ -75,8 +76,12 @@ with mid:
 
     if st.button("Entrar", key="entrar_login"):
         if usuario != "" and email != "" and senha != "":
-            st.session_state.role = 'logado'
-            st.switch_page("./pages/1_pagina_home.py")
+            try:
+                user_api.login(usuario, email, senha)
+                st.session_state.role = 'logado'
+                st.switch_page("./pages/1_pagina_home.py")
+            except Exception as e:
+                st.error("Email ou senha incorretos")
         else:
             st.error("Preencha todos os campos")
 
