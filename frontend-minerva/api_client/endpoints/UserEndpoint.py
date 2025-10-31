@@ -19,13 +19,13 @@ class UserEndpoint:
 
     def login(self, username: str, email: str, senha: str):
         """
-        POST /login - faz login e configura o token JWT no cliente.
+        POST /login - faz login e salva o cookie JWT automaticamente via requests.Session
         """
-        response = self.client.post("usuarios/login", data={"username": username, "email": email, "senha": senha})
+        data = {"username": username, "email": email, "senha": senha}
+        response = self.client.session.post(self.client._make_url("usuarios/login"), json=data)
 
-        token = response.get("token")
-        if not token:
-            raise Exception("Token JWT não retornado pela API de login.")
+        if response.status_code == 401:
+            raise Exception("Credenciais inválidas")
 
-        self.client.set_token(token)
-        return token
+        print("Cookies recebidos:", self.client.session.cookies.get_dict())
+        return response.status_code

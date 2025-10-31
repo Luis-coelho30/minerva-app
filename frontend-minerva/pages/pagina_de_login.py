@@ -1,5 +1,7 @@
 import streamlit as st
-from utils import setup_css
+from utils import setup_css, initialize_session_state
+
+initialize_session_state()
 
 def load_css(file_name):
     with open(file_name) as f:
@@ -29,11 +31,11 @@ with mid:
     if st.button("Entrar", key="entrar_login"):
         if usuario != "" and email != "" and senha != "":
             try:
-                user_api.login(usuario, email, senha)
-                st.session_state.role = 'logado'
+                response = user_api.login(usuario, email, senha)
+                st.session_state.role = "logado"
                 st.switch_page("./pages/1_pagina_home.py")
             except Exception as e:
-                st.error("Email ou senha incorretos")
+                st.error(f"Email ou senha incorretos + {e}")
         else:
             st.error("Preencha todos os campos")
 

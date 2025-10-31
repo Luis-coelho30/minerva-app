@@ -1,5 +1,11 @@
 import streamlit as st
 import re
+from api_client.client import ApiClient
+from api_client.endpoints.UserEndpoint import UserEndpoint
+from api_client.endpoints.TaskEndpoint import TaskEndpoint
+from api_client.endpoints.DisciplineEndpoint import DisciplinaEndpoint
+from api_client.endpoints.GradeEndpoint import GradeEndpoint
+from api_client.endpoints.FileEndpoint import FileEndpoint
 
 def setup_css():
     st.markdown(
@@ -37,6 +43,23 @@ def setup_logged(): # define a cor do fundo e define o topo da pagina mais pra c
         with logo_col:
             st.image("./images/Minerva_logo.jpeg", width=400)
 
+@st.cache_resource
+def init_api_clients():
+    client = ApiClient(base_url="http://localhost:8080")
+    return {
+        "client": client,
+        "user_api": UserEndpoint(client),
+        "task_api": TaskEndpoint(client),
+        "disc_api": DisciplinaEndpoint(client),
+        "grade_api": GradeEndpoint(client),
+        "file_api": FileEndpoint(client)
+    }
+
+
+def initialize_session_state():
+    if "client" not in st.session_state:
+        apis = init_api_clients()
+        st.session_state.update(apis)
 
 def verificar_email(email): # ve se o email fornecido esta em formato de email
     padrao = r"(^[\w][\w_.+-]+){1,}@[\w_.-]+\.[\w]{2,}$"

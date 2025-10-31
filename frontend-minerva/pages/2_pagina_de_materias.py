@@ -1,6 +1,11 @@
 import streamlit as st
-from utils import setup_logged
+
+from init_session import ensure_session_state
+from utils import setup_logged, initialize_session_state
 from menu import menu_with_redirect
+
+initialize_session_state()
+ensure_session_state()
 
 st.set_page_config(page_title="Materias", page_icon="./images/Minerva_logo.jpeg", layout="wide")   # define qual nome a aba vai ter no navegador
 

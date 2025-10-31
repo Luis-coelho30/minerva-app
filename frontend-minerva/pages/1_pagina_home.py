@@ -1,6 +1,10 @@
 import streamlit as st
-from utils import setup_logged
+from utils import setup_logged, initialize_session_state
 from menu import menu_with_redirect
+from init_session import ensure_session_state
+
+initialize_session_state()
+ensure_session_state()
 
 st.set_page_config(page_title="Home", page_icon="./images/Minerva_logo.jpeg", layout="wide")   # define qual nome a aba vai ter no navegador
 
@@ -9,7 +13,6 @@ largura_logo_home = 150
 setup_logged()   # define a cor de fundo e que a pagina comeca mais pra cima pra logo ficar mais alta
 
 menu_with_redirect()
-
 
 st.subheader("Calendario") 
 st.subheader("Tarefas de Hoje:")

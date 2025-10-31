@@ -1,8 +1,12 @@
 import streamlit as st
-from utils import setup_logged
+from utils import setup_logged, initialize_session_state
 from menu import menu_with_redirect
 from pathlib import Path
 from components.documento_component import documento_component, editar_documento_modal
+from init_session import ensure_session_state
+
+initialize_session_state()
+ensure_session_state()
 
 def load_css(file_name):
     with open(file_name) as f:
