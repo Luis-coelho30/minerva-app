@@ -16,7 +16,7 @@ class FileEndpoint:
     def create_file(self, disciplinaId: int, nomeOriginal: str, url: str, tipo: str):
         """POST /arquivos/me/create - cria um novo arquivo para o usuário logado"""
         return self.client.post(
-            "arquivos/me/create", 
+            "arquivos/me", 
             data={
             "disciplinaId": disciplinaId, 
             "nomeOriginal": nomeOriginal, 

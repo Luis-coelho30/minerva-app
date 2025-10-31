@@ -9,6 +9,7 @@ def authenticated_menu():
     st.sidebar.page_link("pages/4_pagina_de_documentos.py", label="Arquivos", icon=":material/bookmarks:")
 
 
+
 def unauthenticated_menu():
     # Show a navigation menu for unauthenticated users
     st.sidebar.page_link("app.py", label="Log in")

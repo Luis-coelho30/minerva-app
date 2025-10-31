@@ -12,7 +12,7 @@ class GradeEndpoint:
     def create_grade(self, descricao: str, valor: float, peso: int, disciplinaId: int):
         """POST /notas/me - cria uma nova nota para o usuário logado"""
         return self.client.post(
-            "notas/me/create", 
+            "notas/me", 
             data={
             "descricao": descricao, 
             "valor": valor, 
