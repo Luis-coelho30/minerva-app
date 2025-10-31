@@ -1,64 +1,16 @@
 import streamlit as st
 from utils import setup_css
 
-st.set_page_config(page_title="Login", page_icon="./images/Minerva_logo.jpeg") # define qual nome a aba vai ter no navegador
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-setup_css() # define a cor do fundo e tira a sidebar
+setup_css()
+load_css("styles/pagina_de_login.css")
+
 user_api = st.session_state.user_api
 
-# CSS para estilizar os botões
-st.markdown("""
-    <style>
-    .stButton > button {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-        border-radius: 8px !important;
-        font-weight: bold !important;
-    }
-    .stButton > button:hover {
-        background-color: #f0f0f0 !important;
-        color: #112236 !important;
-        border: 2px solid #f0f0f0 !important;
-        font-weight: bold !important;
-    }
-    /* Estilizar campos de input */
-    .stTextInput > div > div > input {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid white !important;
-        border-radius: 8px !important;
-    }
-    .stTextInput > div > div > input:focus {
-        background-color: white !important;
-        color: #112236 !important;
-        border: 2px solid #cccccc !important;
-    }
-    /* Estilizar labels dos inputs */
-    .stTextInput > label {
-        color: white !important;
-        font-weight: bold !important;
-    }
-    /* Estilizar TODOS os containers dos inputs */
-    .stTextInput > div > div,
-    .stTextInput > div > div > div,
-    .stTextInput div[data-baseweb="input"] {
-        background-color: white !important;
-    }
-    /* Estilizar botão do olho */
-    .stTextInput button,
-    .stTextInput button > div,
-    .stTextInput [data-testid="baseButton-secondary"] {
-        background-color: white !important;
-        color: #112236 !important;
-        border: none !important;
-    }
-    .stTextInput button:hover {
-        background-color: #f0f0f0 !important;
-        color: #112236 !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
+st.set_page_config(page_title="Login", page_icon="./images/Minerva_logo.jpeg") # define qual nome a aba vai ter no navegador
 
 col1, mid, col2 = st.columns([1, 10, 1])    # coloca a logo e o nome no topo da pagina
 with mid:

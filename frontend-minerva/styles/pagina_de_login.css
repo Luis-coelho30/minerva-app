@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Quintessential&display=swap');
+
+/* Animações */
+@keyframes slideInFromTop {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromBottom {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Classes de animação */
+.slide-in-top {
+    animation: slideInFromTop 0.8s ease-out;
+}
+
+.slide-in-bottom {
+    animation: slideInFromBottom 0.8s ease-out;
+}
+
+/* Estilizar botões */
+.stButton > button {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    font-family: 'Quintessential', cursive !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+}
+
+.stButton > button:hover {
+    background-color: #f0f0f0 !important;
+    color: #112236 !important;
+    border: 2px solid #f0f0f0 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.3) !important;
+}
+
+/* Estilizar campos de input */
+.stTextInput > div > div > input {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+    font-family: 'Quintessential', cursive !important;
+    transition: all 0.3s ease !important;
+}
+
+.stTextInput > div > div > input:focus {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid #cccccc !important;
+    transform: scale(1.02) !important;
+    box-shadow: 0 0 10px rgba(255,255,255,0.5) !important;
+}
+
+/* Estilizar labels dos inputs */
+.stTextInput > label {
+    color: white !important;
+    font-weight: bold !important;
+    font-family: 'Quintessential', cursive !important;
+}
+
+/* Estilizar containers dos inputs */
+.stTextInput > div > div,
+.stTextInput > div > div > div,
+.stTextInput div[data-baseweb="input"] {
+    background-color: white !important;
+}
+
+/* Estilizar botão do olho */
+.stTextInput button,
+.stTextInput button > div,
+.stTextInput [data-testid="baseButton-secondary"] {
+    background-color: white !important;
+    color: #112236 !important;
+    border: none !important;
+}
+
+.stTextInput button:hover {
+    background-color: #f0f0f0 !important;
+    color: #112236 !important;
+}
+
+/* Fonte geral */
+* {
+    font-family: 'Quintessential', cursive !important;
+}

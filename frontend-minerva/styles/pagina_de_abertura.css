@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Quintessential&display=swap');
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stImage {
+    margin-left: -40px !important;
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+.stButton > button {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    font-family: 'Quintessential', cursive !important;
+    letter-spacing: 2px !important;
+    transition: all 0.3s ease !important;
+    transform: scale(1) !important;
+}
+
+.stButton > button:hover {
+    background-color: #f0f0f0 !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    font-family: 'Quintessential', cursive !important;
+    letter-spacing: 2px !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* Forçar fonte nos botões com mais especificidade */
+button[data-testid="baseButton-secondary"],
+button[kind="secondary"],
+.stButton button,
+.stButton > button * {
+    font-family: 'Quintessential', cursive !important;
+    letter-spacing: 2px !important;
+}
+
+* {
+    font-family: 'Quintessential', cursive !important;
+    letter-spacing: 2px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Quintessential', cursive !important;
+    letter-spacing: 2px !important;
+}

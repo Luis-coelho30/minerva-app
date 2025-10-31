@@ -2,7 +2,6 @@ import streamlit as st
 from utils import setup_logged
 from menu import menu_with_redirect
 
-
 st.set_page_config(page_title="Home", page_icon="./images/Minerva_logo.jpeg", layout="wide")   # define qual nome a aba vai ter no navegador
 
 largura_logo_home = 150
