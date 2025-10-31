@@ -13,40 +13,16 @@ class TaskEndpoint:
         """GET tarefas/me?disciplinaId={id} - lista todas as tarefas do usuário logado pelo ID da disciplina"""
         return self.client.get(f"tarefas/me?disciplinaId={disciplinaId}")
     
-    def create_task(self, titulo: str, descricao: str, status: str, disciplinaId: int | None, dataInicio: str, dataFim: str, 
-                    concluido_em: str, prioridade: str, arquivada: bool):
+    def create_task(self, data: dict):
         """POST tarefas/me - cria uma nova tarefa para o usuário logado"""
         return self.client.post(
-            "tarefas/me", 
-            data={
-            "titulo": titulo, 
-            "descricao": descricao, 
-            "status": status, 
-            "disciplinaId": disciplinaId, 
-            "dataInicio": dataInicio, 
-            "dataFim": dataFim, 
-            "concluido_em": concluido_em,
-            "prioridade": prioridade, 
-            "arquivada": arquivada
-            }
-        )
+            "tarefas/me", data=data)
     
-    def update_task(self, tarefaId: int, titulo: str, descricao: str, status: str, disciplinaId: int | None, 
-                    dataInicio: str, dataFim: str, concluido_em: str, prioridade: str, arquivada: bool):
+    def update_task(self, tarefaId: int, data: dict):
         """PUT /tarefas/me/{id} - atualiza uma tarefa pelo ID"""
         return self.client.put(
-            f"tarefas/me/{tarefaId}", 
-            data={
-            "titulo": titulo, 
-            "descricao": descricao, 
-            "status": status, 
-            "disciplinaId": disciplinaId, 
-            "dataInicio": dataInicio, 
-            "dataFim": dataFim, 
-            "concluido_em": concluido_em,
-            "prioridade": prioridade, 
-            "arquivada": arquivada
-            }
+            f"tarefas/me/{tarefaId}",
+            data = data
         )
     
     def delete_task(self, tarefaId: int):
