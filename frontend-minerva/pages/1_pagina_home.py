@@ -18,7 +18,8 @@ menu_with_redirect()
 task_api = st.session_state.task_api
 
 st.subheader("Calendário")
-st.session_state.tarefas = task_api.list_user_tasks()
+if "tarefas" not in st.session_state:
+    st.session_state.tarefas = task_api.list_user_tasks()
 
 def formatar_tarefas_para_calendario(tarefas: list):
     eventos_formatados = []

@@ -61,9 +61,6 @@ def editar_disciplina_dialog(disciplina_para_editar):
         with col1:
             if st.form_submit_button("Salvar"):
 
-                limite_de_horas = nova_carga_horaria * 0.25
-                limite_aulas = int(limite_de_horas // nova_duracao_aula)
-
                 disciplina_editada = {
                     "nome": novo_nome,
                     "descricao": nova_descricao,
@@ -71,7 +68,9 @@ def editar_disciplina_dialog(disciplina_para_editar):
                     "mediaNecessaria": nova_media,
                     "mediaAtual": disciplina_para_editar["mediaAtual"],
                     "creditos": novos_creditos,
-                    "faltasRestantes": limite_aulas
+                    "cargaHorariaTotal": nova_carga_horaria,
+                    "cargaHorariaAula": nova_duracao_aula,
+                    "faltasRegistradas": disciplina_para_editar["faltasRegistradas"]
                 }
 
                 try:
@@ -137,6 +136,31 @@ def handle_excluir_disciplina(disciplina):
         st.toast(f"Matéria '{disciplina.get("nome")}' excluída!")
     except Exception as e:
         st.error(f"Erro ao excluir a matéria: {e}")
+
+
+def handle_atualizar_faltas(disciplina, novo_total_faltas):
+    try:
+        disc_id = disciplina.get('id')
+        payload_completo = disciplina.copy()
+        if "id" in payload_completo:
+            del payload_completo["id"]
+
+        payload_completo.update({
+            "faltasRegistradas": novo_total_faltas
+        })
+
+        disciplina_atualizada = disc_api.update_discipline(disc_id, payload_completo)
+
+        for i, d in enumerate(st.session_state.lista_de_disciplinas):
+            if d.get("id") == disc_id:
+                st.session_state.lista_de_disciplinas[i] = disciplina_atualizada
+                break
+
+        st.toast("Contagem de faltas atualizada.")
+        st.rerun()
+
+    except Exception as e:
+        st.error(f"Erro ao atualizar faltas: {e}")
 
 
 def add_nota_ui(disciplina_id: int):
@@ -208,7 +232,9 @@ with st.expander(icon=":material/add:", label="Criar nova materia"):
                     "mediaNecessaria": media_necessaria,
                     "mediaAtual": 0.0,
                     "creditos": creditos,
-                    "faltasRestantes": limite_aulas
+                    "cargaHorariaTotal": carga_horaria,
+                    "cargaHorariaAula": duracao_aula,
+                    "faltasRegistradas": 0
                 }
 
                 disc_api.create_discipline(disciplina_payload)
@@ -230,8 +256,9 @@ try:
                 on_editar=handle_iniciar_edicao_disciplina,
                 on_arquivar=handle_arquivar_disciplina,
                 on_excluir=handle_excluir_disciplina,
+                on_att_faltas = handle_atualizar_faltas,
                 add_nota_ui=add_nota_ui,
-                mostrar_notas_ui=mostrar_notas_ui
+                mostrar_notas_ui=mostrar_notas_ui,
             )
 
     if disciplinas_arquivadas:
