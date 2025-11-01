@@ -27,5 +27,4 @@ class UserEndpoint:
         if response.status_code == 401:
             raise Exception("Credenciais inválidas")
 
-        print("Cookies recebidos:", self.client.session.cookies.get_dict())
         return response.status_code
