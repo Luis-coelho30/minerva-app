@@ -26,6 +26,7 @@ def formatar_tarefas_para_calendario(tarefas: list):
     for tarefa in tarefas:
         titulo = tarefa.get("titulo")
         status = tarefa.get("status")
+        arquivada = tarefa.get("arquivada", False)
 
         data_inicio_str = tarefa.get("dataInicio")
         data_fim_str = tarefa.get("dataFim")
@@ -53,7 +54,9 @@ def formatar_tarefas_para_calendario(tarefas: list):
 
         # Define a cor baseada no status
         color = "blue"
-        if status == "Concluída":
+        if arquivada:
+            color = "grey"
+        elif status == "Concluída":
             color = "green"
         elif status == "Em Progresso":
             color = "orange"

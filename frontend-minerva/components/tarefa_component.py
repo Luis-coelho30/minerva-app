@@ -2,7 +2,12 @@ import streamlit as st
 from typing import Callable
 import datetime
 
-def tarefa_component(tarefa: dict, on_editar: Callable, on_concluir: Callable, on_excluir: Callable):
+def tarefa_component(tarefa: dict,
+                     on_editar: Callable,
+                     on_concluir: Callable,
+                     on_excluir: Callable,
+                     on_arquivar: Callable
+                     ):
     tarefa_id = tarefa.get("id")
     if not tarefa_id:
         st.error(f"Componente de tarefa recebeu dados inválidos (sem ID): {tarefa.get('titulo')}")
@@ -68,8 +73,7 @@ def tarefa_component(tarefa: dict, on_editar: Callable, on_concluir: Callable, o
 
         with col_botoes:
             st.button(
-                "Editar",
-                icon=":material/edit:",
+                "✏️ Editar",
                 key=f"edit_{tarefa_id}",
                 on_click=on_editar,
                 args=(tarefa,),
@@ -77,8 +81,7 @@ def tarefa_component(tarefa: dict, on_editar: Callable, on_concluir: Callable, o
             )
 
             st.button(
-                "Concluir" if status != "Concluída" else "Concluída",
-                icon=":material/check_circle:",
+                "✅ Concluir" if status != "Concluída" else "🎉 Concluída",
                 key=f"complete_{tarefa_id}",
                 on_click=on_concluir,
                 args=(tarefa_id,),
@@ -86,11 +89,52 @@ def tarefa_component(tarefa: dict, on_editar: Callable, on_concluir: Callable, o
                 disabled=(status == "Concluída")
             )
 
+            with st.popover("🗃️ Arquivar", use_container_width=True):
+                st.write(f"Tem certeza que deseja arquivar '{titulo}'?")
+                st.button("Confirmar",
+                          type="primary",
+                          key=f"confirm_archive_task_{tarefa_id}",
+                          on_click=on_arquivar,
+                          args=(tarefa,))
+
+            with st.popover("🗑️ Excluir", use_container_width=True):
+                st.write(f"Tem certeza que deseja excluir '{titulo}'?")
+                st.button("Confirmar Exclusão",
+                          type="primary",
+                          key=f"confirm_delete_task_{tarefa_id}",
+                          on_click=on_excluir,
+                          args=(tarefa_id,))
+
+
+def tarefa_arquivada_component(tarefa: dict,
+                               on_desarquivar: Callable,
+                               on_excluir: Callable
+                               ):
+
+    tarefa_id = tarefa.get("id")
+    titulo = tarefa.get("titulo", "Tarefa Sem Título")
+
+    with st.container(border=True):
+        col_info, col_botoes = st.columns([5, 1], vertical_alignment="center", gap="small")
+
+        with col_info:
+            st.subheader(f"*(Arquivada)* {titulo}")
+            if tarefa.get("disciplina"):
+                st.caption(f"**{tarefa.get('disciplina')}**")
+
+        with col_botoes:
             st.button(
-                "Excluir",
-                icon=":material/delete:",
-                key=f"delete_{tarefa_id}",
-                on_click=on_excluir,
-                args=(tarefa_id,),
+                "📤 Desarquivar",
+                key=f"unarchive_task_{tarefa_id}",
+                on_click=on_desarquivar,
+                args=(tarefa,),
                 use_container_width=True
             )
+
+            with st.popover("🗑️ Excluir", use_container_width=True):
+                st.write(f"Tem certeza que deseja excluir '{titulo}'?")
+                st.button("Confirmar Exclusão",
+                          type="primary",
+                          key=f"confirm_delete_archived_task_{tarefa_id}",
+                          on_click=on_excluir,
+                          args=(tarefa_id,))

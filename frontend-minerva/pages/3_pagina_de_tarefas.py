@@ -1,8 +1,9 @@
 import streamlit as st
 import datetime
+
 from utils import setup_logged, initialize_session_state
 from menu import menu_with_redirect
-from components import tarefa_component
+from components.tarefa_component import tarefa_component, tarefa_arquivada_component
 from init_session import ensure_session_state
 from datetime import datetime as dt
 
@@ -135,6 +136,47 @@ def handle_excluir_tarefa(tarefa_id):
     except Exception as e:
         st.error(f"Erro ao excluir tarefa: {e}")
 
+
+def handle_arquivar_tarefa(tarefa):
+    try:
+        tarefa_id = tarefa.get('id')
+        payload = tarefa.copy()
+        if "id" in payload: del payload["id"]
+        payload["arquivada"] = True
+
+        tarefa_atualizada = task_api.update_task(tarefa_id, payload)
+
+        for i, t in enumerate(st.session_state.tarefas):
+            if t["id"] == tarefa_id:
+                st.session_state.tarefas[i] = tarefa_atualizada
+                break
+
+        st.toast("Tarefa arquivada.")
+
+    except Exception as e:
+        st.error(f"Erro ao arquivar: {e}")
+
+
+def handle_desarquivar_tarefa(tarefa):
+    try:
+        tarefa_id = tarefa.get('id')
+        payload = tarefa.copy()
+        if "id" in payload: del payload["id"]
+        payload["arquivada"] = False
+
+        tarefa_atualizada = task_api.update_task(tarefa_id, payload)
+
+        for i, t in enumerate(st.session_state.tarefas):
+            if t["id"] == tarefa_id:
+                st.session_state.tarefas[i] = tarefa_atualizada
+                break
+
+        st.toast("Tarefa desarquivada.")
+
+    except Exception as e:
+        st.error(f"Erro ao desarquivar: {e}")
+
+
 def get_sort_key(tarefa):
     # Se a tarefa estiver concluída deverá ser colocada ao final
     is_concluida = 1 if tarefa.get("status") == "Concluída" else 0
@@ -155,22 +197,44 @@ def get_sort_key(tarefa):
 if not st.session_state.tarefas:
     st.success("Ótimo trabalho! Nenhuma tarefa pendente. ✨")
 else:
+    # Separa as tarefas arquivadas das excluídas
+    tarefas_ativas = [t for t in st.session_state.tarefas if not t.get('arquivada', False)]
+    tarefas_arquivadas = [t for t in st.session_state.tarefas if t.get('arquivada', False)]
+
     # Ordena as tarefas
-    tarefas_ordenadas = sorted(st.session_state.tarefas, key=get_sort_key)
+    tarefas_ativas_ordenadas = sorted(tarefas_ativas, key=get_sort_key)
+    tarefas_arquivadas_ordenadas = sorted(tarefas_arquivadas, key=get_sort_key)
 
-    for tarefa in tarefas_ordenadas:
-        disciplina_id = tarefa.get("disciplinaId")
+    mapa_id_para_nome = st.session_state.mapa_id_disc
 
-        nome_da_disciplina = st.session_state.mapa_id_disc.get(disciplina_id, "")
+    if not tarefas_ativas_ordenadas:
+        st.success("Ótimo trabalho! Nenhuma tarefa pendente. ✨")
+    else:
+        for tarefa in tarefas_ativas_ordenadas:
+            disciplina_id = tarefa.get("disciplinaId")
+            nome_da_disciplina = mapa_id_para_nome.get(disciplina_id, "")
+            tarefa["disciplina"] = nome_da_disciplina
 
-        tarefa["disciplina"] = nome_da_disciplina
+            tarefa_component(
+                tarefa=tarefa,
+                on_editar=handle_iniciar_edicao,
+                on_concluir=handle_concluir_tarefa,
+                on_excluir=handle_excluir_tarefa,
+                on_arquivar=handle_arquivar_tarefa
+            )
 
-        tarefa_component(
-            tarefa=tarefa,
-            on_editar=handle_iniciar_edicao,
-            on_concluir=handle_concluir_tarefa,
-            on_excluir=handle_excluir_tarefa
-        )
+    if tarefas_arquivadas_ordenadas:
+        with st.expander("Tarefas Arquivadas"):
+            for tarefa in tarefas_arquivadas_ordenadas:
+                disciplina_id = tarefa.get("disciplinaId")
+                nome_da_disciplina = mapa_id_para_nome.get(disciplina_id, "")
+                tarefa["disciplina"] = nome_da_disciplina
+
+                tarefa_arquivada_component(
+                    tarefa=tarefa,
+                    on_desarquivar=handle_desarquivar_tarefa,
+                    on_excluir=handle_excluir_tarefa
+                )
 
 
 @st.dialog("Editar Tarefa")
@@ -180,10 +244,7 @@ def editar_tarefa_modal():
 
     disciplina_atual_nome = ""
     if tarefa.get("disciplinaId"):
-        for nome, id_disciplina in st.session_state.mapa_disc_id.items():
-            if id_disciplina == tarefa["disciplinaId"]:
-                disciplina_atual_nome = nome
-                break
+        disciplina_atual_nome = st.session_state.mapa_id_disc.get(tarefa.get("disciplinaId"), "")
 
     with st.form("editar_tarefa_form"):
         novo_titulo = st.text_input("Título da Tarefa", value=tarefa["titulo"])
