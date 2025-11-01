@@ -13,31 +13,13 @@ class DisciplinaEndpoint:
         """GET disciplinas/me/{discId} - lista disciplina por ID"""
         return self.client.get(f"disciplinas/me/{discId}")
     
-    def create_discipline(self, nome: str, descricao: str, arquivada: bool, mediaNecessaria: float, creditos: int):
+    def create_discipline(self, data: dict):
         """POST disciplinas/me - cria uma nova disciplina para o usuário logado"""
-        return self.client.post(
-            "disciplinas/me", 
-            data={
-            "nome": nome, 
-            "descricao": descricao, 
-            "arquivada": arquivada, 
-            "mediaNecessaria": mediaNecessaria, 
-            "creditos": creditos
-            }
-        )
+        return self.client.post("disciplinas/me", data=data)
     
-    def update_discipline(self, discId: int, nome: str, descricao: str, arquivada: bool, mediaNecessaria: float, creditos: int):
+    def update_discipline(self, discId: int, data: dict):
         """PUT /disciplinas/me/{discId} - atualiza uma disciplina pelo ID"""
-        return self.client.put(
-            f"disciplinas/me/{discId}", 
-            data={
-            "nome": nome, 
-            "descricao": descricao, 
-            "arquivada": arquivada, 
-            "mediaNecessaria": mediaNecessaria, 
-            "creditos": creditos
-            }
-        )
+        return self.client.put(f"disciplinas/me/{discId}", data=data)
     
     def delete_discipline(self, discId: int):
         """DELETE /disciplinas/me/{discId} - apaga uma disciplina pelo ID"""
