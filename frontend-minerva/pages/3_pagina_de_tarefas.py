@@ -21,6 +21,16 @@ hoje = datetime.date.today()
 opcoes_status = ["Pendente", "Em Progresso", "Concluída"]
 opcoes_prioridade = ["Baixa", "Média", "Alta"]
 
+if "mapa_id_disc" not in st.session_state:
+    try:
+        disciplinas_lista = disc_api.list_user_discipline()
+        st.session_state.mapa_id_disc = {d["id"]: d["nome"] for d in disciplinas_lista}
+        st.session_state.mapa_disc_id = {d["nome"]: d["id"] for d in disciplinas_lista}
+    except Exception as e:
+        st.error(f"Erro ao carregar mapa de disciplinas: {e}")
+        st.session_state.mapa_id_disc = {}
+        st.session_state.mapa_disc_id = {}
+
 st.set_page_config(page_title="Tarefas",
                    page_icon="./images/Minerva_logo.jpeg",
                    layout="wide"
@@ -34,9 +44,7 @@ if "tarefas" not in st.session_state:
 
 with st.expander(icon=":material/add:", label="Adicionar Nova Tarefa", expanded=False):
     with st.form("nova_tarefa_form", clear_on_submit=True):
-        disciplinas_lista = disc_api.list_user_discipline()
-        disciplinas_map = {d["nome"]: d["id"] for d in disciplinas_lista}
-        opcoes_disciplina_nomes = [""] + list(disciplinas_map.keys())
+        opcoes_disciplina_nomes = [""] + list(st.session_state.mapa_disc_id.keys())
 
         titulo = st.text_input("Título da Tarefa")
         descricao = st.text_area("Descrição (Opcional)")
@@ -44,37 +52,39 @@ with st.expander(icon=":material/add:", label="Adicionar Nova Tarefa", expanded=
         disciplina_nome_selecionada = st.selectbox("Disciplina", opcoes_disciplina_nomes)
         prioridade = st.selectbox("Prioridade", opcoes_prioridade)
         data_inicio = st.date_input("Data de Início (Opcional)", value=None, min_value = hoje)
-        min_data_final = data_inicio if data_inicio is not None else hoje
-        data_final = st.date_input("Data Final (Opcional)", value=None, min_value = min_data_final)
+        data_final = st.date_input("Data Final (Opcional)", value=None, min_value = hoje)
 
         submitted = st.form_submit_button("Adicionar Tarefa")
 
         if submitted and titulo:
-            disciplinaId = disciplinas_map.get(disciplina_nome_selecionada)
-            data_inicio_val = data_inicio.strftime("%d/%m/%Y") if data_inicio else None
-            data_final_val = data_final.strftime("%d/%m/%Y") if data_final else None
+            if data_inicio and data_final and (data_final < data_inicio):
+                st.error("A data final não pode ser anterior à data de início.")
 
-            payload_criacao = {
-                "titulo": titulo,
-                "descricao": descricao if descricao else "",
-                "status": status,
-                "disciplinaId": disciplinaId,
-                "dataInicio": data_inicio_val,
-                "dataFinal": data_final_val,
-                "concluido_em": None,
-                "prioridade": prioridade,
-                "arquivada": False
-            }
-            print(payload_criacao)
+            else:
+                disciplinaId = st.session_state.mapa_disc_id.get(disciplina_nome_selecionada)
+                data_inicio_val = data_inicio.strftime("%d/%m/%Y") if data_inicio else None
+                data_final_val = data_final.strftime("%d/%m/%Y") if data_final else None
 
-            try:
-                response = task_api.create_task(payload_criacao)
-                nova_tarefa = response
-                st.session_state.tarefas.append(nova_tarefa)
-                st.success(f"Tarefa '{titulo}' adicionada com sucesso!")
-                st.rerun()
-            except Exception as e:
-                st.error(f"Erro ao criar tarefa: {e}")
+                payload_criacao = {
+                    "titulo": titulo,
+                    "descricao": descricao if descricao else "",
+                    "status": status,
+                    "disciplinaId": disciplinaId,
+                    "dataInicio": data_inicio_val,
+                    "dataFinal": data_final_val,
+                    "concluido_em": None,
+                    "prioridade": prioridade,
+                    "arquivada": False
+                }
+
+                try:
+                    response = task_api.create_task(payload_criacao)
+                    nova_tarefa = response
+                    st.session_state.tarefas.append(nova_tarefa)
+                    st.success(f"Tarefa '{titulo}' adicionada com sucesso!")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Erro ao criar tarefa: {e}")
 
 st.markdown("---")
 
@@ -118,7 +128,6 @@ def handle_excluir_tarefa(tarefa_id):
     try:
         task_api.delete_task(tarefa_id)
 
-        # 2. Atualizar estado local
         st.session_state.tarefas = [t for t in st.session_state.tarefas if t["id"] != tarefa_id]
 
         st.toast("Tarefa excluída.", icon="🗑️")
@@ -126,12 +135,36 @@ def handle_excluir_tarefa(tarefa_id):
     except Exception as e:
         st.error(f"Erro ao excluir tarefa: {e}")
 
+def get_sort_key(tarefa):
+    # Se a tarefa estiver concluída deverá ser colocada ao final
+    is_concluida = 1 if tarefa.get("status") == "Concluída" else 0
+    # Coleta a data final
+    data_str = tarefa.get("dataFinal")
+    sort_date = datetime.date.max
+
+    if data_str:
+        try:
+            sort_date = datetime.datetime.strptime(data_str, "%d/%m/%Y").date()
+        except (ValueError, TypeError):
+            pass
+
+    # Retorna a Tupla para ordenação com tarefas não concluídas e próximas em primeiro lugar
+    return is_concluida, sort_date
+
 # Exibir tarefas
 if not st.session_state.tarefas:
     st.success("Ótimo trabalho! Nenhuma tarefa pendente. ✨")
 else:
-    for tarefa in st.session_state.tarefas:
-        # CORREÇÃO: Chamada ao componente refatorado
+    # Ordena as tarefas
+    tarefas_ordenadas = sorted(st.session_state.tarefas, key=get_sort_key)
+
+    for tarefa in tarefas_ordenadas:
+        disciplina_id = tarefa.get("disciplinaId")
+
+        nome_da_disciplina = st.session_state.mapa_id_disc.get(disciplina_id, "")
+
+        tarefa["disciplina"] = nome_da_disciplina
+
         tarefa_component(
             tarefa=tarefa,
             on_editar=handle_iniciar_edicao,
@@ -143,14 +176,11 @@ else:
 @st.dialog("Editar Tarefa")
 def editar_tarefa_modal():
     tarefa = st.session_state.editando_tarefa
-
-    disciplinas_lista = disc_api.list_user_discipline()
-    disciplinas_map = {d["nome"]: d["id"] for d in disciplinas_lista}
-    opcoes_disciplina_nomes = [""] + list(disciplinas_map.keys())
+    opcoes_disciplina_nomes = [""] + list(st.session_state.mapa_disc_id.keys())
 
     disciplina_atual_nome = ""
     if tarefa.get("disciplinaId"):
-        for nome, id_disciplina in disciplinas_map.items():
+        for nome, id_disciplina in st.session_state.mapa_disc_id.items():
             if id_disciplina == tarefa["disciplinaId"]:
                 disciplina_atual_nome = nome
                 break
@@ -190,7 +220,7 @@ def editar_tarefa_modal():
                 if "id" in payload_completo:
                     del payload_completo["id"]
 
-                novo_disciplina_id = disciplinas_map.get(nova_disciplina_nome)
+                novo_disciplina_id = st.session_state.mapa_disc_id.get(nova_disciplina_nome)
                 data_inicio_str = nova_data_inicio.strftime("%d/%m/%Y") if nova_data_inicio else None
                 data_final_str = nova_data_final.strftime("%d/%m/%Y") if nova_data_final else None
 

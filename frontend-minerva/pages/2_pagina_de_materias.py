@@ -224,15 +224,13 @@ try:
     if not disciplinas_ativas:
         st.info("Você ainda não cadastrou nenhuma matéria. Adicione uma acima!")
     else:
-        # Loop de Disciplinas Ativas
         for disciplina in disciplinas_ativas:
-            # Chama o componente "burro" de disciplina
             disciplina_component(
                 disciplina=disciplina,
                 on_editar=handle_iniciar_edicao_disciplina,
                 on_arquivar=handle_arquivar_disciplina,
                 on_excluir=handle_excluir_disciplina,
-                add_nota_ui=add_nota_ui,          # Passa a função de UI
+                add_nota_ui=add_nota_ui,
                 mostrar_notas_ui=mostrar_notas_ui
             )
 
