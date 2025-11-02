@@ -14,7 +14,12 @@ ENV/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# --- Dependências ---
+# --- Streamlit ---
+frontend-minerva/.streamlit/secrets.toml
+frontend-minerva/.streamlit/cache/
+frontend-minerva/.streamlit/config.toml
+
+# --- Dependências e builds ---
 *.egg
 *.egg-info/
 dist/
@@ -34,9 +39,13 @@ lib64/
 *.bak
 *.swp
 *.swo
+*.out
+*.orig
+*.stackdump
 
-# --- Configurações do editor/IDE ---
+# --- Configurações de editor/IDE ---
 .vscode/
+.vscode/settings.json
 .idea/
 *.sublime-project
 *.sublime-workspace
@@ -50,9 +59,15 @@ htmlcov/
 nosetests.xml
 coverage.xml
 
-# --- Jupyter e notebooks ---
-.ipynb_checkpoints
+# --- Jupyter ---
+.ipynb_checkpoints/
 *.ipynb
+
+# --- Banco de dados ---
+*.sqlite
+*.sqlite3
+*.db
+*.sql
 
 # --- Arquivos do sistema ---
 .DS_Store
@@ -64,45 +79,32 @@ Thumbs.db
 .pytype/
 __pypackages__/
 
-# --- Build e deploy ---
-*.manifest
-*.spec
-*.mo
-*.pot
-
 # --- Docker ---
 *.pid
 *.seed
 docker-compose.override.yml
 
-# --- Outros ---
-*.sqlite3
-*.db
-
-# --- Java ---
-
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
+# --- Java / Maven ---
+backend-minerva/target/
+backend-minerva/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# --- Spring Tools Suite (STS) ---
+backend-minerva/.apt_generated
+backend-minerva/.classpath
+backend-minerva/.factorypath
+backend-minerva/.project
+backend-minerva/.settings/
+backend-minerva/.springBeans
+backend-minerva/.sts4-cache
 
-### IntelliJ IDEA ###
-.idea
+# --- IntelliJ IDEA ---
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# --- NetBeans ---
 /nbproject/private/
 /nbbuild/
 /dist/

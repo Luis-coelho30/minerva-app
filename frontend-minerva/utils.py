@@ -1,11 +1,15 @@
 import streamlit as st
 import re
+
+from streamlit import secrets
 from api_client.client import ApiClient
 from api_client.endpoints.UserEndpoint import UserEndpoint
 from api_client.endpoints.TaskEndpoint import TaskEndpoint
 from api_client.endpoints.DisciplineEndpoint import DisciplinaEndpoint
 from api_client.endpoints.GradeEndpoint import GradeEndpoint
 from api_client.endpoints.FileEndpoint import FileEndpoint
+
+API_URL = secrets.get("API_URL", "http://localhost:8080")
 
 def setup_css():
     st.markdown(
@@ -45,7 +49,7 @@ def setup_logged(): # define a cor do fundo e define o topo da pagina mais pra c
 
 @st.cache_resource
 def init_api_clients():
-    client = ApiClient(base_url="http://localhost:8080")
+    client = ApiClient(base_url=API_URL)
     return {
         "client": client,
         "user_api": UserEndpoint(client),
