@@ -4,11 +4,15 @@ from utils import setup_logged, initialize_session_state
 from menu import menu_with_redirect
 from components.disciplina_component import disciplina_component, disciplina_arquivada_component
 from components.nota_component import nota_component
+from pathlib import Path
 
 initialize_session_state()
 ensure_session_state()
 
-st.set_page_config(page_title="Materias", page_icon="./images/Minerva_logo.jpeg", layout="wide")
+BASE_DIR = Path(__file__).parent.parent
+image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
+
+st.set_page_config(page_title="Materias", page_icon=image_path, layout="wide")
 
 setup_logged()
 menu_with_redirect()

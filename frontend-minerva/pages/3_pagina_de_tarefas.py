@@ -6,15 +6,20 @@ from menu import menu_with_redirect
 from components.tarefa_component import tarefa_component, tarefa_arquivada_component
 from init_session import ensure_session_state
 from datetime import datetime as dt
+from pathlib import Path
 
 initialize_session_state()
 ensure_session_state()
+
+BASE_DIR = Path(__file__).parent.parent
+image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
+style_path = BASE_DIR / "styles" / "pagina_de_tarefas.css"
 
 def load_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-load_css("styles/pagina_de_tarefas.css")
+load_css(style_path)
 task_api = st.session_state.task_api
 disc_api = st.session_state.disc_api
 
@@ -33,7 +38,7 @@ if "mapa_id_disc" not in st.session_state:
         st.session_state.mapa_disc_id = {}
 
 st.set_page_config(page_title="Tarefas",
-                   page_icon="./images/Minerva_logo.jpeg",
+                   page_icon=image_path,
                    layout="wide"
                    )
 

@@ -1,24 +1,28 @@
 import streamlit as st
-import re
 from utils import verificar_email, verificar_senha_forte, setup_css
+from pathlib import Path
 
 def load_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 setup_css()
-load_css("styles/pagina_de_cadastro.css")
+BASE_DIR = Path(__file__).parent.parent
+style_path = BASE_DIR / "styles" / "pagina_de_cadastro.css"
+image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
+pagina_de_abertura_path = BASE_DIR / "pages" / "pagina_de_abertura.py"
+load_css(style_path)
 
 user_api = st.session_state.user_api
 
-st.set_page_config(page_title="Cadastro", page_icon="./images/Minerva_logo.jpeg")   # define qual nome a aba vai ter no navegador 
+st.set_page_config(page_title="Cadastro", page_icon=image_path)   # define qual nome a aba vai ter no navegador
 
 col1, mid, col2 = st.columns([1, 10, 1])    # coloca a logo e o nome no topo da pagina
 with mid:
     # Centralizar apenas a imagem
     _, img_col, _ = st.columns([1, 1, 1])
     with img_col:
-        st.image("./images/Minerva_logo.jpeg", width=150)
+        st.image(image_path, width=150)
     usuario = st.text_input("Usuário")
     email = st.text_input("Email")  
     senha = st.text_input("Senha", type="password")
@@ -47,9 +51,9 @@ with mid:
                 }
                 resposta = user_api.create_user(user_resp)
                 st.success("Cadastro realizado com sucesso! Redirecionando...")
-                st.switch_page("./pages/pagina_de_abertura.py")
+                st.switch_page(pagina_de_abertura_path)
             except Exception as e:
                 st.error(f"Erro ao cadastrar usuário: Email: {email} já foi cadastrado!")
 
     if st.button("Voltar"):
-        st.switch_page("./pages/pagina_de_abertura.py")
+        st.switch_page(pagina_de_abertura_path)

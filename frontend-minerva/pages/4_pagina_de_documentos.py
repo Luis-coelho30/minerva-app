@@ -13,12 +13,16 @@ def load_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-st.set_page_config(page_title="Documentos", page_icon="./images/Minerva_logo.jpeg", layout="wide")
+BASE_DIR = Path(__file__).parent.parent
+image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
+style_path = BASE_DIR / "styles" / "pagina_de_documentos.css"
+
+st.set_page_config(page_title="Documentos", page_icon=image_path, layout="wide")
 
 setup_logged()
 menu_with_redirect()
 
-load_css("styles/pagina_de_documentos.css")
+load_css(style_path)
 
 disc_api = st.session_state.disc_api
 file_api = st.session_state.file_api

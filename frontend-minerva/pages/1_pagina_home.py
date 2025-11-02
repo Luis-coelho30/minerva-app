@@ -4,11 +4,15 @@ import datetime
 from utils import setup_logged, initialize_session_state
 from menu import menu_with_redirect
 from init_session import ensure_session_state
+from pathlib import Path
 
 initialize_session_state()
 ensure_session_state()
 
-st.set_page_config(page_title="Home", page_icon="./images/Minerva_logo.jpeg", layout="wide")   # define qual nome a aba vai ter no navegador
+BASE_DIR = Path(__file__).parent.parent
+image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
+
+st.set_page_config(page_title="Home", page_icon=image_path, layout="wide")   # define qual nome a aba vai ter no navegador
 
 largura_logo_home = 150
 

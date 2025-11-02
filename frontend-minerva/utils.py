@@ -8,8 +8,11 @@ from api_client.endpoints.TaskEndpoint import TaskEndpoint
 from api_client.endpoints.DisciplineEndpoint import DisciplinaEndpoint
 from api_client.endpoints.GradeEndpoint import GradeEndpoint
 from api_client.endpoints.FileEndpoint import FileEndpoint
+from pathlib import Path
 
 API_URL = secrets.get("API_URL", "http://localhost:8080")
+BASE_DIR = Path(__file__).parent
+image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
 
 def setup_css():
     st.markdown(
@@ -45,7 +48,7 @@ def setup_logged(): # define a cor do fundo e define o topo da pagina mais pra c
         # Centralizar apenas a logo
         _, logo_col, _ = st.columns([1, 1, 1])
         with logo_col:
-            st.image("./images/Minerva_logo.jpeg", width=400)
+            st.image(image_path, width=400)
 
 @st.cache_resource
 def init_api_clients():
