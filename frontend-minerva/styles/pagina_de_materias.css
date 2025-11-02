@@ -5,41 +5,22 @@
     from { opacity: 0; transform: translateX(-30px); }
     to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes slideInFromRight {
     from { opacity: 0; transform: translateX(30px); }
     to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+.slide-in-left { animation: slideInFromLeft 0.8s ease-out; }
+.slide-in-right { animation: slideInFromRight 0.8s ease-out; }
+.fade-in { animation: fadeIn 1s ease-out; }
 
-/* Classes de animação */
-.slide-in-left {
-    animation: slideInFromLeft 0.8s ease-out;
-}
-
-.slide-in-right {
-    animation: slideInFromRight 0.8s ease-out;
-}
-
-.fade-in {
-    animation: fadeIn 1s ease-out;
-}
-
-/* Aplicar fonte apenas em elementos específicos */
-body, p, h1, h2, h3, h4, h5, h6, div, label, button, input, textarea, select {
+body, p, h1, h2, h3, h4, h5, h6, label, button, input, textarea, select, li {
     font-family: 'Quintessential', cursive !important;
 }
 
-/* Esconder ícones problemáticos */
-span[data-testid="material-symbols"] {
-    display: none !important;
-}
-
-/* Estilizar campos de texto */
 .stTextInput > div > div > input,
 .stTextArea > div > div > textarea {
     background-color: white !important;
@@ -48,6 +29,7 @@ span[data-testid="material-symbols"] {
     border-radius: 8px !important;
     font-family: 'Quintessential', cursive !important;
     transition: all 0.3s ease !important;
+    caret-color: #112236 !important;
 }
 
 .stTextInput > div > div > input:focus,
@@ -55,18 +37,10 @@ span[data-testid="material-symbols"] {
     background-color: white !important;
     color: #112236 !important;
     border: 2px solid #cccccc !important;
-    transform: scale(1.02) !important;
     box-shadow: 0 0 10px rgba(255,255,255,0.5) !important;
 }
 
-/* Forçar fundo branco em TODOS os elementos de selectbox */
-.stSelectbox > div > div,
-.stSelectbox > div > div > div,
-.stSelectbox > div > div > div > div,
-.stSelectbox div[data-baseweb="select"],
-.stSelectbox div[data-baseweb="select"] > div,
-.stSelectbox div[role="combobox"],
-.stSelectbox [class*="css"] {
+.stSelectbox div[data-baseweb="select"] {
     background-color: white !important;
     color: #112236 !important;
     border: 2px solid white !important;
@@ -74,8 +48,15 @@ span[data-testid="material-symbols"] {
     font-family: 'Quintessential', cursive !important;
     transition: all 0.3s ease !important;
 }
+.stSelectbox div[data-baseweb="select"] > div,
+.stSelectbox div[data-baseweb="select"] input {
+    background-color: white !important;
+    color: #112236 !important;
+    font-family: 'Quintessential', cursive !important;
+    border: none !important;
+    box-shadow: none !important;
+}
 
-/* Estilizar date inputs */
 .stDateInput input {
     background-color: white !important;
     color: #112236 !important;
@@ -83,11 +64,38 @@ span[data-testid="material-symbols"] {
     border-radius: 8px !important;
     font-family: 'Quintessential', cursive !important;
     transition: all 0.3s ease !important;
+    caret-color: #112236 !important;
 }
-
 .stDateInput > div > div {
     background-color: white !important;
     border-radius: 8px !important;
+}
+
+/* Estilizar o st.number_input para combinar */
+.stNumberInput div[data-baseweb="input"] {
+    background-color: white !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+.stNumberInput input {
+    background-color: white !important;
+    color: #112236 !important;
+    font-family: 'Quintessential', cursive !important;
+    caret-color: #112236 !important;
+    border: none !important;
+}
+.stNumberInput button {
+    background-color: white !important;
+    color: #112236 !important;
+    border-radius: 0 !important;
+    border: none !important;
+}
+.stNumberInput button:hover {
+    background-color: #f0f0f0 !important;
+}
+.stNumberInput button svg {
+    fill: #112236 !important;
 }
 
 /* Estilizar labels */
@@ -96,7 +104,8 @@ span[data-testid="material-symbols"] {
 .stSelectbox > label,
 .stDateInput > label,
 .stCheckbox > label,
-.stFileUploader > label {
+.stFileUploader > label,
+.stNumberInput > label {
     color: white !important;
     font-weight: bold !important;
     font-family: 'Quintessential', cursive !important;
@@ -113,7 +122,6 @@ span[data-testid="material-symbols"] {
     letter-spacing: 1px !important;
     transition: all 0.3s ease !important;
 }
-
 .stFormSubmitButton > button:hover {
     background-color: #f0f0f0 !important;
     color: #112236 !important;
@@ -121,7 +129,6 @@ span[data-testid="material-symbols"] {
     transform: scale(1.05) !important;
     box-shadow: 0 4px 12px rgba(255,255,255,0.3) !important;
 }
-
 .stFormSubmitButton > button:active,
 .stFormSubmitButton > button:focus {
     background-color: white !important;
@@ -137,13 +144,7 @@ span[data-testid="material-symbols"] {
     font-family: 'Quintessential', cursive !important;
 }
 
-/* Estilizar file uploader */
-.stFileUploader,
-.stFileUploader > div,
-.stFileUploader > div > div,
-.stFileUploader > div > div > div,
-.stFileUploader section,
-.stFileUploader section > div {
+.stFileUploader [data-testid="stFileUploadDropzone"] {
     background-color: white !important;
     border: 2px solid white !important;
     border-radius: 8px !important;
@@ -151,18 +152,49 @@ span[data-testid="material-symbols"] {
     font-family: 'Quintessential', cursive !important;
     transition: all 0.3s ease !important;
 }
-
-.stFileUploader:hover {
+.stFileUploader [data-testid="stFileUploadDropzone"]:hover {
     transform: scale(1.02) !important;
     box-shadow: 0 4px 12px rgba(255,255,255,0.3) !important;
 }
-
-.stFileUploader *,
-.stFileUploader p,
-.stFileUploader span,
-.stFileUploader div,
-.stFileUploader section * {
+.stFileUploader [data-testid="stFileUploadDropzone"] * {
     color: #112236 !important;
     font-family: 'Quintessential', cursive !important;
+}
+.stFileUploader button {
+    display: none !important;
+}
+.stFileUploader small {
+    display: none !important;
+}
+
+/* Estilizar expander */
+.streamlit-expanderHeader {
+    background-color: rgba(255,255,255,0.1) !important;
+    border-radius: 8px !important;
+    font-family: 'Quintessential', cursive !important;
+    transition: all 0.3s ease !important;
+}
+.streamlit-expanderHeader:hover {
+    background-color: rgba(255,255,255,0.2) !important;
+    transform: scale(1.02) !important;
+}
+
+/* Estilizar botões gerais */
+.stButton > button {
+    background-color: white !important;
+    color: #112236 !important;
+    border: 2px solid white !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    font-family: 'Quintessential', cursive !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+}
+.stButton > button:hover {
+    background-color: #f0f0f0 !important;
+    color: #112236 !important;
+    border: 2px solid #f0f0f0 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.3) !important;
 }
 

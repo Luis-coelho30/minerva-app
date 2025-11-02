@@ -54,11 +54,23 @@ with st.expander(icon=":material/add:", label="Adicionar Nova Tarefa", expanded=
 
         titulo = st.text_input("Título da Tarefa")
         descricao = st.text_area("Descrição (Opcional)")
-        status = st.selectbox("Status", opcoes_status)
-        disciplina_nome_selecionada = st.selectbox("Disciplina", opcoes_disciplina_nomes)
-        prioridade = st.selectbox("Prioridade", opcoes_prioridade)
-        data_inicio = st.date_input("Data de Início (Opcional)", value=None, min_value = hoje)
-        data_final = st.date_input("Data Final (Opcional)", value=None, min_value = hoje)
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            status = st.selectbox("Status", opcoes_status)
+
+        with col2:
+            disciplina_nome_selecionada = st.selectbox("Disciplina", opcoes_disciplina_nomes)
+
+        with col3:
+            prioridade = st.selectbox("Prioridade", opcoes_prioridade)
+
+        col_data_inicio, col_data_final = st.columns(2)
+        with col_data_inicio:
+            data_inicio = st.date_input("Data de Início (Opcional)", value=None, min_value=hoje)
+
+        with col_data_final:
+            data_final = st.date_input("Data Final (Opcional)", value=None, min_value=hoje)
 
         submitted = st.form_submit_button("Adicionar Tarefa")
 

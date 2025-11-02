@@ -40,22 +40,47 @@
     box-shadow: 0 4px 12px rgba(255,255,255,0.3) !important;
 }
 
-/* Estilizar campos de input */
-.stTextInput > div > div > input {
+/* O container principal que segura o input e o botão */
+.stTextInput div[data-baseweb="input"] {
     background-color: white !important;
     color: #112236 !important;
     border: 2px solid white !important;
     border-radius: 8px !important;
-    font-family: 'Quintessential', cursive !important;
     transition: all 0.3s ease !important;
 }
 
-.stTextInput > div > div > input:focus {
-    background-color: white !important;
-    color: #112236 !important;
+/* Efeito de foco no container principal */
+.stTextInput div[data-baseweb="input"]:focus-within {
     border: 2px solid #cccccc !important;
     transform: scale(1.02) !important;
     box-shadow: 0 0 10px rgba(255,255,255,0.5) !important;
+}
+
+/* O campo de input dentro do container */
+.stTextInput div[data-baseweb="input"] input {
+    background-color: white !important;
+    color: #112236 !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-family: 'Quintessential', cursive !important;
+    border-radius: 0 !important;
+    caret-color: #112236 !important;
+}
+
+.stTextInput div[data-baseweb="input"] button {
+    background-color: white !important;
+    color: #112236 !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.stTextInput div[data-baseweb="input"] button svg {
+    fill: #112236 !important;
+}
+
+/* Efeito hover no botão */
+.stTextInput div[data-baseweb="input"] button:hover {
+    background-color: #f0f0f0 !important;
 }
 
 /* Estilizar labels dos inputs */
@@ -65,28 +90,7 @@
     font-family: 'Quintessential', cursive !important;
 }
 
-/* Estilizar containers dos inputs */
-.stTextInput > div > div,
-.stTextInput > div > div > div,
-.stTextInput div[data-baseweb="input"] {
-    background-color: white !important;
-}
-
-/* Estilizar botão do olho */
-.stTextInput button,
-.stTextInput button > div,
-.stTextInput [data-testid="baseButton-secondary"] {
-    background-color: white !important;
-    color: #112236 !important;
-    border: none !important;
-}
-
-.stTextInput button:hover {
-    background-color: #f0f0f0 !important;
-    color: #112236 !important;
-}
-
-/* Fonte geral */
-* {
+body, p, h1, h2, h3, h4, h5, h6, label, button, input, textarea, select, li, span {
     font-family: 'Quintessential', cursive !important;
 }
+

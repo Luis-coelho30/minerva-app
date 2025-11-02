@@ -35,7 +35,6 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
 }
 
-/* Forçar fonte nos botões com mais especificidade */
 button[data-testid="baseButton-secondary"],
 button[kind="secondary"],
 .stButton button,
@@ -44,12 +43,14 @@ button[kind="secondary"],
     letter-spacing: 2px !important;
 }
 
-* {
+body, p, h1, h2, h3, h4, h5, h6, label, button, input, textarea, select, li, span {
     font-family: 'Quintessential', cursive !important;
     letter-spacing: 2px !important;
 }
+
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Quintessential', cursive !important;
     letter-spacing: 2px !important;
 }
+

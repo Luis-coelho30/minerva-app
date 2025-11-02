@@ -29,12 +29,10 @@
     animation: fadeIn 1s ease-out;
 }
 
-/* Aplicar fonte apenas em elementos específicos */
-body, p, h1, h2, h3, h4, h5, h6, div, label, button, input, textarea, select {
+body, p, h1, h2, h3, h4, h5, h6, label, button, input, textarea, select {
     font-family: 'Quintessential', cursive !important;
 }
 
-/* Esconder ícones problemáticos */
 span[data-testid="material-symbols"] {
     display: none !important;
 }
@@ -59,20 +57,23 @@ span[data-testid="material-symbols"] {
     box-shadow: 0 0 10px rgba(255,255,255,0.5) !important;
 }
 
-/* Forçar fundo branco em TODOS os elementos de selectbox */
-.stSelectbox > div > div,
-.stSelectbox > div > div > div,
-.stSelectbox > div > div > div > div,
-.stSelectbox div[data-baseweb="select"],
-.stSelectbox div[data-baseweb="select"] > div,
-.stSelectbox div[role="combobox"],
-.stSelectbox [class*="css"] {
+/* Estilizar o container visível do selectbox */
+.stSelectbox div[data-baseweb="select"] {
     background-color: white !important;
-    color: #112236 !important;
     border: 2px solid white !important;
     border-radius: 8px !important;
-    font-family: 'Quintessential', cursive !important;
     transition: all 0.3s ease !important;
+}
+
+/* Estilizar o texto e o input dentro do selectbox */
+.stSelectbox div[data-baseweb="select"] > div,
+.stSelectbox div[data-baseweb="select"] input {
+    background-color: white !important;
+    color: #112236 !important;
+    font-family: 'Quintessential', cursive !important;
+
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Estilizar date inputs */

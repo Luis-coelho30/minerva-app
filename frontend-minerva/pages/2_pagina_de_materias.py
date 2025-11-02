@@ -17,7 +17,7 @@ setup_css()
 ensure_session_state()
 
 BASE_DIR = Path(__file__).parent.parent
-style_path = BASE_DIR / "styles" / "pagina_home.css"
+style_path = BASE_DIR / "styles" / "pagina_de_materias.css"
 image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
 load_css(style_path)
 
