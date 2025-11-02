@@ -1,16 +1,25 @@
 import streamlit as st
 from init_session import ensure_session_state
-from utils import setup_logged, initialize_session_state
+from utils import setup_logged, initialize_session_state, setup_css
 from menu import menu_with_redirect
 from components.disciplina_component import disciplina_component, disciplina_arquivada_component
 from components.nota_component import nota_component
 from pathlib import Path
 
 initialize_session_state()
+
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+setup_css()
+
 ensure_session_state()
 
 BASE_DIR = Path(__file__).parent.parent
+style_path = BASE_DIR / "styles" / "pagina_home.css"
 image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
+load_css(style_path)
 
 st.set_page_config(page_title="Materias", page_icon=image_path, layout="wide")
 

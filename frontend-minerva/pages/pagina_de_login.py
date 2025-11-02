@@ -10,7 +10,6 @@ def load_css(file_name):
 
 setup_css()
 BASE_DIR = Path(__file__).parent.parent
-print(BASE_DIR)
 style_path = BASE_DIR / "styles" / "pagina_de_login.css"
 image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
 pagina_de_abertura_path = BASE_DIR / "pages" / "pagina_de_abertura.py"

@@ -1,16 +1,25 @@
 import streamlit as st
 from streamlit_calendar import calendar as st_calendar
 import datetime
-from utils import setup_logged, initialize_session_state
+from utils import setup_logged, initialize_session_state, setup_css
 from menu import menu_with_redirect
 from init_session import ensure_session_state
 from pathlib import Path
 
 initialize_session_state()
+
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+setup_css()
+
 ensure_session_state()
 
 BASE_DIR = Path(__file__).parent.parent
+style_path = BASE_DIR / "styles" / "pagina_home.css"
 image_path = BASE_DIR / "images" / "Minerva_logo.jpeg"
+load_css(style_path)
 
 st.set_page_config(page_title="Home", page_icon=image_path, layout="wide")   # define qual nome a aba vai ter no navegador
 

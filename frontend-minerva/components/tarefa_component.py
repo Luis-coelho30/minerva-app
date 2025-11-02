@@ -73,7 +73,7 @@ def tarefa_component(tarefa: dict,
 
         with col_botoes:
             st.button(
-                "✏️ Editar",
+                "Editar",
                 key=f"edit_{tarefa_id}",
                 on_click=on_editar,
                 args=(tarefa,),
@@ -81,7 +81,7 @@ def tarefa_component(tarefa: dict,
             )
 
             st.button(
-                "✅ Concluir" if status != "Concluída" else "🎉 Concluída",
+                "Concluir" if status != "Concluída" else "🎉 Concluída",
                 key=f"complete_{tarefa_id}",
                 on_click=on_concluir,
                 args=(tarefa_id,),
@@ -89,7 +89,7 @@ def tarefa_component(tarefa: dict,
                 disabled=(status == "Concluída")
             )
 
-            with st.popover("🗃️ Arquivar", use_container_width=True):
+            with st.popover("Arquivar", use_container_width=True):
                 st.write(f"Tem certeza que deseja arquivar '{titulo}'?")
                 st.button("Confirmar",
                           type="primary",
@@ -97,7 +97,7 @@ def tarefa_component(tarefa: dict,
                           on_click=on_arquivar,
                           args=(tarefa,))
 
-            with st.popover("🗑️ Excluir", use_container_width=True):
+            with st.popover("Excluir", use_container_width=True):
                 st.write(f"Tem certeza que deseja excluir '{titulo}'?")
                 st.button("Confirmar Exclusão",
                           type="primary",
